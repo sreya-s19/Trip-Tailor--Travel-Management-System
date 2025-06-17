@@ -1,0 +1,164 @@
+<!-- hotel.html (UPDATED) -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🏨 Hotel Booking</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- ADD THIS LINE TO ALL YOUR HTML FILES -->
+  <link rel="icon" type="image/png" href="logo.png">
+  <style>
+      /* Styles for the hotel results */
+      #hotel-results-container {
+          max-width: 800px;
+          margin: 3rem auto;
+      }
+      .hotel-result-card {
+          background-color: #1f1f1f;
+          padding: 1.5rem;
+          border-radius: 8px;
+          margin-bottom: 1rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+      }
+      .hotel-result-card button {
+           background-color: #0a9396;
+           color: white;
+           border: none;
+           padding: 10px 15px;
+           border-radius: 5px;
+           cursor: pointer;
+           margin-left: 1rem;
+      }
+      /* In your flight.html and hotel.html <style> tags */
+
+      .loader-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 2rem;
+      }
+
+      .loader {
+          border: 5px solid #333; /* Light grey */
+          border-top: 5px solid #0a9396; /* Your teal accent color */
+          border-radius: 50%;
+          width: 50px;
+          height: 50px;
+          animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+      }
+
+
+      /* In your hotel.html <style> tag */
+
+      .results-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Creates a responsive grid */
+          gap: 1.5rem; /* Space between cards */
+      }
+
+      .hotel-result-card {
+          background-color: #1f1f1f;
+          border-radius: 8px;
+          overflow: hidden; /* Ensures content stays within the rounded corners */
+          display: flex;
+          flex-direction: column;
+          box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+          transition: transform 0.2s ease-in-out;
+      }
+
+      .hotel-result-card:hover {
+          transform: translateY(-5px); /* Lifts the card on hover */
+      }
+
+      .hotel-details {
+          padding: 1rem;
+          flex-grow: 1; /* Allows this section to grow and push the footer down */
+      }
+
+      .hotel-details h4 {
+          color: #0a9396; /* Accent color for the hotel name */
+          margin-bottom: 0.5rem;
+      }
+
+      .hotel-footer {
+          background-color: #2a2a2a;
+          padding: 1rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+      }
+
+      .hotel-footer .price {
+          font-size: 1.2rem;
+          font-weight: bold;
+      }
+
+      .hotel-footer button {
+          background-color: #0a9396;
+          color: white;
+          border: none;
+          padding: 10px 15px;
+          border-radius: 5px;
+          cursor: pointer;
+      }
+
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="logo.png" alt="Trip Tailor Logo" class="logo" />
+    <div class="slogan">Your personalized travel assistant</div>
+  </header>
+
+  <nav>
+    <a href="index.html" style="margin-right: 20px;">🏠 Home</a>
+    <a href="flight.html" style="margin-right: 20px;">✈️ Flights</a>
+    <a href="hotel.html">🏨 Hotels</a>
+  </nav>
+
+  <h1>🏨 Book Your Hotel</h1>
+
+  <form id="hotelForm">
+    <label for="destination">📍 Destination (City Code)</label>
+    <input type="text" id="destination" placeholder="e.g., PAR for Paris" required />
+
+    <label for="checkin">🛎️ Check-in Date</label>
+    <input type="date" id="checkin" required />
+
+    <label for="checkout">🛏️ Check-out Date</label>
+    <input type="date" id="checkout" required />
+
+    <button type="submit">Search Hotels</button> <!-- Button text changed -->
+  </form>
+
+  <div id="custom-alert-modal" class="modal">
+    <div class="modal-content">
+        <h2 id="custom-alert-title"></h2>
+        <p id="custom--alert-message"></p>
+        <button id="custom-alert-ok-btn">OK</button>
+    </div>
+</div>
+
+  <!-- Container to display hotel search results -->
+  <div id="hotel-results-container"></div>
+
+  <!-- Main script for cart functionality -->
+  <script src="script.js"></script>
+  <!-- Specific script for this page -->
+  <script src="hotel.js"></script>
+
+  
+
+</body>
+</html>

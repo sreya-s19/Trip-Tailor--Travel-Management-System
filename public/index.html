@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- ADD THIS LINE TO ALL YOUR HTML FILES -->
+    <link rel="icon" type="image/png" href="logo.png">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trip Tailor</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #0a0a0a;
+            color: #fff;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #1f1f1f;
+            padding: 1rem;
+            text-align: center;
+            position: relative;
+        }
+
+        header .slogan {
+            font-size: 1.1rem;
+            color: #ccc;
+            font-style: italic;
+            margin-bottom: 0.5rem;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        nav a {
+            color: #ccc;
+            margin: 0 1rem;
+            text-decoration: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+
+        nav a:hover {
+            color: #fff;
+        }
+
+        .top-right-buttons {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .top-right-buttons button {
+            background: #444;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #cart-icon {
+            display: none;
+            position: relative;
+            cursor: pointer;
+        }
+
+        #cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: red;
+            color: white;
+            border-radius: 50%;
+            width: 15px;
+            height: 15px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            display: none;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            background-color: #111;
+        }
+
+        .hero img {
+            max-width: 300px;
+            height: auto;
+        }
+
+        .icon-nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 2rem;
+            background-color: #111;
+            flex-wrap: wrap;
+        }
+
+        .icon-nav a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #ccc;
+            text-decoration: none;
+            cursor: pointer;
+            width: 100px;
+        }
+
+        .icon-nav a:hover {
+            color: #fff;
+        }
+
+        .icon-nav img {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 0.5rem;
+        }
+
+        .section {
+            padding: 2rem;
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .section.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section h2 {
+            border-bottom: 2px solid #444;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.6rem;
+        }
+
+        .form-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .form-group {
+            flex: 1 1 45%;
+            display: flex;
+            flex-direction: column;
+            min-width: 250px;
+        }
+
+        .form-group.full-width {
+            flex: 1 1 100%;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background-color: #333;
+            border: 1px solid #444;
+            color: #fff;
+            font-size: 1rem;
+            border-radius: 5px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+        }
+
+        .form-group button {
+            background-color: #555;
+            color: #fff;
+            padding: 1rem 2rem;
+            border: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .form-group button:hover {
+            background-color: #777;
+        }
+
+        .footer {
+            background: #1f1f1f;
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.9rem;
+            margin-top: auto;
+        }
+
+        /* Listing Card Styles */
+        .listing-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .listing-card {
+            background-color: #1f1f1f;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #333;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .listing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .listing-card h3 {
+            margin-top: 0;
+            color: #0a9396;
+            font-size: 1.3rem;
+        }
+
+        .listing-card p {
+            margin: 0.5rem 0;
+            color: #ccc;
+        }
+
+        .listing-card .price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #fff;
+            margin-top: 1rem;
+        }
+
+        .listing-card button {
+            background-color: #0a9396;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+            width: 100%;
+        }
+
+        .listing-card button:hover {
+            background-color: #005f73;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #1f1f1f;
+            padding: 30px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Form Styles */
+        .modal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .modal-form input {
+            width: 100%;
+            padding: 12px;
+            background-color: #333;
+            border: 1px solid #444;
+            color: #fff;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .modal-form button {
+            background-color: #0a9396;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .modal-form button:hover {
+            background-color: #005f73;
+        }
+
+        .captcha-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .captcha-text {
+            font-family: monospace;
+            font-size: 20px;
+            letter-spacing: 3px;
+            background: #333;
+            padding: 5px 10px;
+            border-radius: 4px;
+            user-select: none;
+        }
+
+        /* Cart Item Styles */
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #333;
+            border-radius: 5px;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-details h4 {
+            margin: 0 0 5px 0;
+            color: #0a9396;
+        }
+
+        .cart-item-details p {
+            margin: 0;
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        .cart-item-price {
+            font-weight: bold;
+            color: #fff;
+            margin-right: 10px;
+        }
+
+        .remove-btn {
+            background-color: #ff4444;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .remove-btn:hover {
+            background-color: #cc0000;
+        }
+
+        /* Chatbot Styling */
+        #chatbot-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 30px;
+            cursor: pointer;
+            z-index: 9999;
+        }
+
+        #chatbot-box {
+            display: none;
+            position: fixed;
+            bottom: 70px;
+            right: 20px;
+            width: 300px;
+            background-color: #1f1f1f;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+            z-index: 9999;
+            flex-direction: column;
+        }
+
+        #chatbot-header {
+            background-color: #444;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        #chatbot-messages {
+            flex: 1;
+            padding: 10px;
+            height: 200px;
+            overflow-y: auto;
+            background: #333;
+        }
+
+        #chatbot-input {
+            border: none;
+            padding: 10px;
+            width: calc(100% - 20px);
+            font-size: 0.9rem;
+            background: #444;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .form-group {
+                flex: 1 1 100%;
+            }
+
+            .icon-nav {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .form-group button {
+                width: auto;
+                margin-top: 2rem;
+            }
+
+            .top-right-buttons {
+                position: static;
+                justify-content: center;
+                margin-top: 10px;
+            }
+
+            .modal-content {
+                padding: 20px;
+            }
+        }
+        #menuToggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1000;
+            background: rgba(0,0,0,0.7);
+            padding: 10px;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #sideMenu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100%;
+            background-color: #1f1f1f;
+            z-index: 999;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.5);
+            overflow-y: auto;
+        }
+
+        .menu-header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #444;
+        }
+
+        .menu-header span:last-child {
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .menu-item {
+            padding: 15px 20px;
+            cursor: pointer;
+            border-bottom: 1px solid #333;
+        }
+
+        .menu-item:hover {
+            background-color: #333;
+        }
+
+        @media (max-width: 768px) {
+            #sideMenu {
+                width: 200px;
+            }
+        }
+    </style>
+
+    <!-- Google Translate Language Selector -->
+    <div id="google_translate_element"></div>
+
+    <style>
+        #google_translate_element {
+            font-size: 14px;
+            float: right;
+            margin: 10px 15px 0 0;
+            z-index: 9999;
+        }
+
+        .goog-logo-link,
+        .goog-te-gadget span {
+            display: none !important;
+        }
+
+        .goog-te-gadget {
+            color: transparent !important;
+        }
+
+        .goog-te-combo {
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            padding: 5px 10px;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .goog-te-combo:hover {
+            border-color: #888;
+        }
+
+        body>.skiptranslate {
+            display: none !important;
+        }
+    </style>
+
+    <!-- Google Translate Widget -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,fr,ar,hi,ml',
+                layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</head>
+
+<body>
+    
+     <div id="menuToggle">
+        <span>☰</span>
+    </div>
+
+    <div id="sideMenu">
+        <div class="menu-header">
+            <span id="menuUsername"></span>
+            <span class="close-menu-btn" onclick="toggleSideMenu()">×</span>
+            
+        </div>
+        <div class="menu-item" onclick="showAccountDetails()">Account</div>
+        <div class="menu-item" onclick="showMyOrders()">My Orders</div>
+        <div class="menu-item" onclick="logoutUser()">Log Out</div>
+    </div>
+
+    <!-- Header Section -->
+    <header>
+        <div class="slogan">Design your trip, your way.</div>
+        <nav>
+            <a onclick="showSection('flights')">Flights</a>
+            <a onclick="showSection('hotels')">Hotels</a>
+            <a onclick="showSection('explore')">Explore</a>
+            <a onclick="showSection('payment')">Payment</a>
+            <a onclick="showSection('contact')">Contact</a>
+            <a onclick="showSection('feedback')">Feedback</a>
+        </nav>
+
+        <!-- Auth Buttons -->
+        <div class="top-right-buttons">
+            <button id="sign-in-btn" onclick="openModal('signUpModal')">Sign Up</button>
+            <button id="log-in-btn" onclick="openModal('logInModal')">Log In</button>
+            <button class="account-btn" id="accountToggle" style="display: none;">Account</button>
+            <div id="cart-icon">🛒<span id="cart-badge"></span></div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <img src="logo.png" alt="Trip Tailor Hero Logo" />
+    </section>
+
+    <!-- Navigation Icons -->
+    <section class="icon-nav">
+        <a href="flight.html">
+            <img src="https://img.icons8.com/ios-filled/100/ffffff/airport.png" alt="Flights">
+            <span>Flights</span>
+        </a>
+        <a href="hotel.html">
+            <img src="https://img.icons8.com/ios-filled/100/ffffff/5-star-hotel.png" alt="Hotels">
+            <span>Hotels</span>
+        </a>
+        <a onclick="showSection('explore')">
+            <img src="https://img.icons8.com/ios-filled/100/ffffff/map.png" alt="Explore">
+            <span>Explore</span>
+        </a>
+        <a onclick="showSection('payment')">
+            <img src="https://img.icons8.com/ios-filled/100/ffffff/bank-cards.png" alt="Payments">
+            <span>Payments</span>
+        </a>
+        <a onclick="showSection('contact')">
+            <img src="https://img.icons8.com/ios-filled/100/ffffff/phone.png" alt="Contact">
+            <span>Contact</span>
+        </a>
+        <a onclick="showSection('feedback')">
+            <img src="https://img.icons8.com/ios-filled/100/ffffff/feedback.png" alt="Feedback">
+            <span>Feedback</span>
+        </a>
+    </section>
+
+    <!-- Sections (Hidden by default, shown by top nav links) -->
+    <section class="section" id="flights">
+        <h2>✈️ Flight Bookings</h2>
+        <p>Book flights to your favorite destinations with ease. We've found some great deals for you!</p>
+        <div class="listing-container">
+            <div class="listing-card">
+                <h3>New York (JFK) → London (LHR)</h3>
+                <p>Airline: British Airways</p>
+                <p>Type: Round Trip</p>
+                <div class="price">From $550</div>
+                <button onclick="addToCart('flight', 'New York (JFK) → London (LHR)', 'British Airways - Round Trip', 550)">Add to Cart</button>
+            </div>
+            <div class="listing-card">
+                <h3>San Francisco (SFO) → Tokyo (HND)</h3>
+                <p>Airline: Japan Airlines</p>
+                <p>Type: One Way</p>
+                <div class="price">From $720</div>
+                <button onclick="addToCart('flight', 'San Francisco (SFO) → Tokyo (HND)', 'Japan Airlines - One Way', 720)">Add to Cart</button>
+            </div>
+            <div class="listing-card">
+                <h3>Dubai (DXB) → Paris (CDG)</h3>
+                <p>Airline: Emirates</p>
+                <p>Type: Round Trip</p>
+                <div class="price">From $680</div>
+                <button onclick="addToCart('flight', 'Dubai (DXB) → Paris (CDG)', 'Emirates - Round Trip', 680)">Add to Cart</button>
+            </div>
+             <div class="listing-card">
+                <h3>Mumbai (BOM) → Goa (GOI)</h3>
+                <p>Airline: IndiGo</p>
+                <p>Type: Round Trip</p>
+                <div class="price">From $85</div>
+                <button onclick="addToCart('flight', 'Mumbai (BOM) → Goa (GOI)', 'IndiGo - Round Trip', 85)">Add to Cart</button>
+            </div>
+            <div class="listing-card">
+                <h3>London (LHR) → Rome (FCO)</h3>
+                <p>Airline: Ryanair</p>
+                <p>Type: One Way</p>
+                <div class="price">From $99</div>
+                <button onclick="addToCart('flight', 'London (LHR) → Rome (FCO)', 'Ryanair - One Way', 99)">Add to Cart</button>
+            </div>
+            <div class="listing-card">
+                <h3>Sydney (SYD) → Bali (DPS)</h3>
+                <p>Airline: Qantas</p>
+                <p>Type: Round Trip</p>
+                <div class="price">From $650</div>
+                <button onclick="addToCart('flight', 'Sydney (SYD) → Bali (DPS)', 'Qantas - Round Trip', 650)">Add to Cart</button>
+            </div>
+            <div class="listing-card">
+                <h3>Los Angeles (LAX) → Cancún (CUN)</h3>
+                <p>Airline: Delta</p>
+                <p>Type: Round Trip</p>
+                <div class="price">From $480</div>
+                <button onclick="addToCart('flight', 'Los Angeles (LAX) → Cancún (CUN)', 'Delta - Round Trip', 480)">Add to Cart</button>
+            </div>
+            <div class="listing-card">
+                <h3>Kochi (COK) → Singapore (SIN)</h3>
+                <p>Airline: Air India Express</p>
+                <p>Type: One Way</p>
+                <div class="price">From $210</div>
+                <button onclick="addToCart('flight', 'Kochi (COK) → Singapore (SIN)', 'Air India Express - One Way', 210)">Add to Cart</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="hotels">
+        <h2>🏨 Hotel Bookings</h2>
+        <p>Find the perfect place to stay during your trip. Check out these featured hotels.</p>
+        <div class="listing-container">
+            <div class="listing-card">
+                <h3>Le Méridien, Paris</h3>
+                <p>Experience the romance of Paris with stunning views of the Eiffel Tower from your room. A perfect blend of comfort and luxury.</p>
+                <div class="price">$450 / night</div>
+                <button onclick="addToCart('hotel', 'Le Méridien, Paris', 'Luxury hotel with Eiffel Tower views', 450)">Add to Cart</button>
+            </div>
+            <div class="listing-card">
+                <h3>The Plaza, New York</h3>
+                <p>An iconic hotel offering timeless elegance and an unrivaled level of service in the heart of Manhattan.</p>
+                <div class="price">$800 / night</div>
+                <button onclick="addToCart('hotel', 'The Plaza, New York', 'Iconic Manhattan luxury hotel', 800)">Add to Cart</button>
+            </div>
+            <div class="listing-card">
+                <h3>Burj Al Arab, Dubai</h3>
+                <p>The epitome of luxury. Enjoy world-class service, opulent suites, and breathtaking views of the Arabian Gulf.</p>
+                <div class="price">$2500 / night</div>
+                <button onclick="addToCart('hotel', 'Burj Al Arab, Dubai', 'Ultra-luxury suite with Gulf views', 2500)">Add to Cart</button>
+            </div>
+             <div class="listing-card">
+                <h3>Taj Mahal Palace, Mumbai</h3>
+                <p>A legendary landmark with breathtaking views of the Gateway of India. A true icon of Indian hospitality.</p>
+                <div class="price">$350 / night</div>
+                <button onclick="addToCart('hotel', 'Taj Mahal Palace, Mumbai', 'Historic luxury hotel with Gateway views', 350)">Add to Cart</button>
+            </div>
+            <div class="listing-card">
+                <h3>Shangri-La The Shard, London</h3>
+                <p>Stay in the clouds. Unparalleled 360-degree views of London in a modern, luxurious setting.</p>
+                <div class="price">$750 / night</div>
+                <button onclick="addToCart('hotel', 'Shangri-La The Shard, London', 'Sky-high luxury with panoramic views', 750)">Add to Cart</button>
+            </div>
+            <div class="listing-card">
+                <h3>Park Hyatt, Tokyo</h3>
+                <p>Famous for its role in 'Lost in Translation', this hotel offers sophisticated luxury and panoramic city views.</p>
+                <div class="price">$950 / night</div>
+                <button onclick="addToCart('hotel', 'Park Hyatt, Tokyo', 'Sophisticated luxury with city views', 950)">Add to Cart</button>
+            </div>
+            <div class="listing-card">
+                <h3>Four Seasons Resort, Bali</h3>
+                <p>A stunning beachfront resort in Jimbaran Bay, offering private villas and an authentic Balinese experience.</p>
+                <div class="price">$600 / night</div>
+                <button onclick="addToCart('hotel', 'Four Seasons Resort, Bali', 'Beachfront resort with private villas', 600)">Add to Cart</button>
+            </div>
+            <div class="listing-card">
+                <h3>The Ritz-Carlton, Cancún</h3>
+                <p>Pristine white-sand beaches and turquoise waters await at this luxurious Caribbean beachfront escape.</p>
+                <div class="price">$700 / night</div>
+                <button onclick="addToCart('hotel', 'The Ritz-Carlton, Cancún', 'Caribbean beachfront luxury', 700)">Add to Cart</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="explore">
+        <h2>🌍 Explore Destinations</h2>
+        <p>Discover world-famous attractions and thrilling amusement parks. Start planning your next adventure!</p>
+        <div class="listing-container">
+            <div class="listing-card">
+                <h3>Eiffel Tower</h3>
+                <p>Location: Paris, France</p>
+                <p>The iconic symbol of Paris, offering breathtaking panoramic views from its observation decks.</p>
+                <div class="price">Tickets from €21</div>
+                <button onclick="addToCart('attraction', 'Eiffel Tower', 'Paris, France - Observation deck tickets', 21)">Add to Cart</button>
+            </div>
+            <div class="listing-card">
+                <h3>Disneyland Park</h3>
+                <p>Location: Anaheim, USA</p>
+                <p>The original 'Happiest Place on Earth', where fairy tales come to life with classic attractions.</p>
+                <div class="price">Day Pass from $104</div>
+                <button onclick="addToCart('attraction', 'Disneyland Park', 'Anaheim, USA - Day Pass', 104)">Add to Cart</button>
+            </div>
+            <div class="listing-card">
+                <h3>The Colosseum</h3>
+                <p>Location: Rome, Italy</p>
+                <p>Step back in time at the largest ancient amphitheater ever built, an icon of Imperial Rome.</p>
+                <div class="price">Tickets from €18</div>
+                <button onclick="addToCart('attraction', 'The Colosseum', 'Rome, Italy - Entry tickets', 18)">Add to Cart</button>
+            </div>
+            <div class="listing-card">
+                <h3>Universal Studios Japan</h3>
+                <p>Location: Osaka, Japan</p>
+                <p>Experience blockbuster movies and Super Nintendo World at this action-packed theme park.</p>
+                <div class="price">Day Pass from ¥8,600</div>
+                <button onclick="addToCart('attraction', 'Universal Studios Japan', 'Osaka, Japan - Day Pass', 8600)">Add to Cart</button>
+            </div>
+            <div class="listing-card">
+                <h3>Taj Mahal</h3>
+                <p>Location: Agra, India</p>
+                <p>An immense mausoleum of white marble, built as a timeless monument to love. A jewel of world art.</p>
+                <div class="price">Entry from ₹1100</div>
+                <button onclick="addToCart('attraction', 'Taj Mahal', 'Agra, India - Entry tickets', 1100)">Add to Cart</button>
+            </div>
+            <div class="listing-card">
+                <h3>Machu Picchu</h3>
+                <p>Location: Cusco, Peru</p>
+                <p>An Incan citadel set high in the Andes Mountains, known for its sophisticated dry-stone walls.</p>
+                <div class="price">Entry from $60</div>
+                <button onclick="addToCart('attraction', 'Machu Picchu', 'Cusco, Peru - Entry tickets', 60)">Add to Cart</button>
+            </div>
+            <div class="listing-card">
+                <h3>Grand Canyon</h3>
+                <p>Location: Arizona, USA</p>
+                <p>A natural wonder of immense size, offering breathtaking layered bands of colorful rock.</p>
+                <div class="price">Park Entry from $35</div>
+                <button onclick="addToCart('attraction', 'Grand Canyon', 'Arizona, USA - Entry tickets', 35)">Add to Cart</button>
+            </div>
+            <div class="listing-card">
+                <h3>Pyramids of Giza</h3>
+                <p>Location: Giza, Egypt</p>
+                <p>The sole surviving wonder of the ancient world. Explore the iconic pyramids and the Great Sphinx.</p>
+                <div class="price">Entry from $20
+                <button onclick="addToCart('attraction', 'Pyramids of Giza', 'Giza, Egypt - Entry tickets', 20)">Add to Cart</button>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="section" id="payment">
+        <h2>💳 Payment</h2>
+        <p>Enter your payment details to complete your bookings for flights, hotels, or tours.</p>
+        <div class="form-container">
+            <div class="form-group">
+                <label for="payment-name">Name on Card</label>
+                <input type="text" id="payment-name" placeholder="Enter name on card" />
+            </div>
+            <div class="form-group">
+                <label for="payment-card">Card Number</label>
+                <input type="text" id="payment-card" placeholder="Enter card number" />
+            </div>
+            <div class="form-group">
+                <label for="payment-expiry">Expiry Date</label>
+                <input type="month" id="payment-expiry" />
+            </div>
+
+            <div class="form-group">
+                <label for="payment-cvc">CVC / CVV</label>
+                <input type="text" id="payment-cvc" placeholder="123" maxlength="4" />
+            </div>
+
+            <div class="form-group full-width">
+                <button type="button" onclick="handleFinalPayment()">Confirm & Pay</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="contact">
+        <h2>📞 Contact Us</h2>
+        <p>If you need help, contact our support team.</p>
+        <p>Phone: +91 89217 16475</p>
+        <p>Email: Triptailor2025@gmail.com</p>
+    </section>
+
+    <section class="section" id="feedback">
+        <h2>📝 Feedback</h2>
+        <p>We value your feedback! Please let us know how we can improve.</p>
+        <div class="form-container">
+            <div class="form-group full-width">
+                <label for="feedback-message">Your Feedback</label>
+                <textarea id="feedback-message" rows="4" placeholder="Enter your feedback here"></textarea>
+            </div>
+            <div class="form-group full-width">
+                <button onclick="submitFeedback()">Submit Feedback</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- In index.html, add this section where you keep your other page sections -->
+
+    <section id="my-orders" class="section">
+        <h2>My Bookings</h2>
+        <p>Here is a history of all your past bookings with Trip Tailor.</p>
+        <div id="my-orders-list" style="margin-top: 2rem;">
+            <!-- The user's orders will be dynamically inserted here by JavaScript -->
+            <p>Loading your orders...</p>
+        </div>
+    </section>
+
+    <section id="account-details" class="section">
+    <h2>My Account</h2>
+    <p>Here are your account details.</p>
+    
+    <div class="account-info-container" style="background-color: #1f1f1f; padding: 2rem; border-radius: 8px; margin-top: 2rem; max-width: 500px;">
+        
+        <div class="info-row">
+            <strong>Full Name:</strong>
+            <span id="account-name"></span>
+        </div>
+        
+        <div class="info-row">
+            <strong>Username:</strong>
+            <span id="account-username"></span>
+        </div>
+
+        <div class="info-row">
+            <strong>Email:</strong>
+            <span id="account-email"></span>
+        </div>
+
+        <div class="info-row">
+            <strong>Password:</strong>
+            <span>••••••••</span> <!-- We display dots for security -->
+        </div>
+
+    </div>
+    </section>
+
+    <!-- You can add some basic styling for this section in your <style> tag -->
+    <style>
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid #444;
+        }
+        .info-row:last-child {
+            border-bottom: none;
+        }
+    </style>
+
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>© 2025 TripTailor. All Rights Reserved.</p>
+    </div>
+
+    <!-- Chatbot Button -->
+    <div id="chatbot-toggle" onclick="toggleChatbot()">💬 Chat</div>
+
+    <!-- Chatbot Box -->
+    <div id="chatbot-box">
+        <div id="chatbot-header">Chat with us!</div>
+        <div id="chatbot-messages"></div>
+        <input type="text" id="chatbot-input" placeholder="Type your message..." onkeypress="sendMessage(event)" />
+    </div>
+
+    <!-- In index.html -->
+
+    <!-- Custom Alert Modal -->
+    <div id="custom-alert-modal" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 400px; text-align: center;">
+            <!-- The title will be set by JavaScript -->
+            <h2 id="custom-alert-title" style="color: #0a9396; margin-top: 0;">Success!</h2>
+            <!-- The message will be set by JavaScript -->
+            <p id="custom-alert-message" style="font-size: 1.1rem; line-height: 1.5;"></p>
+            <button id="custom-alert-ok-btn" class="modal-form-button" style="width: 100px; margin: 20px auto 0 auto;">OK</button>
+        </div>
+    </div>
+
+    <!-- Sign Up Modal -->
+    <div id="signUpModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('signUpModal')">×</span>
+            <h2>Create Account</h2>
+            <form id="signInForm" class="modal-form" onsubmit="handleSignIn(event)">
+                <input type="text" id="signUp-name" placeholder="Full Name" required>
+                <input type="email" id="signUp-email" placeholder="Email" required>
+                <input type="text" id="signUp-username" placeholder="Username" required>
+                <input type="password" id="signUp-password" placeholder="Password" required>
+
+                <div class="captcha-box">
+                    <span class="captcha-text" id="signUp-captcha"></span>
+                    <input type="text" id="signUp-captcha-input" placeholder="Enter CAPTCHA" required>
+                </div>
+
+                <button type="submit">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Log In Modal -->
+    <div id="logInModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('logInModal')">×</span>
+            <h2>Log In</h2>
+            <form id="logInForm" class="modal-form" onsubmit="handleLogIn(event)">
+                <input type="text" id="logIn-username" placeholder="Username" required>
+                <input type="password" id="logIn-password" placeholder="Password" required>
+
+                <div class="captcha-box">
+                    <span class="captcha-text" id="logIn-captcha"></span>
+                    <input type="text" id="logIn-captcha-input" placeholder="Enter CAPTCHA" required>
+                </div>
+
+                <button type="submit">Log In</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</body>
+
+</html>

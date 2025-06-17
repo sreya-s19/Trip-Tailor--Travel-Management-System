@@ -1,0 +1,163 @@
+<!-- flight.html (UPDATED) -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ADD THIS LINE TO ALL YOUR HTML FILES -->
+  <link rel="icon" type="image/png" href="logo.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>✈️ Flight Booking</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+      /* Styles for the flight results */
+      #flight-results-container {
+          max-width: 800px;
+          margin: 3rem auto;
+      }
+      .flight-result-card {
+          background-color: #1f1f1f;
+          padding: 1.5rem;
+          border-radius: 8px;
+          margin-bottom: 1rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+      }
+      .flight-result-card button {
+           background-color: #0a9396;
+           color: white;
+           border: none;
+           padding: 10px 15px;
+           border-radius: 5px;
+           cursor: pointer;
+           margin-left: 1rem;
+      }
+      /* In your flight.html and hotel.html <style> tags */
+
+      .loader-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 2rem;
+      }
+
+      .loader {
+          border: 5px solid #333; /* Light grey */
+          border-top: 5px solid #0a9396; /* Your teal accent color */
+          border-radius: 50%;
+          width: 50px;
+          height: 50px;
+          animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+      }
+
+
+      /*DISPLAY OPTION */
+      .results-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Creates a responsive grid */
+          gap: 1.5rem; /* Space between cards */
+      }
+
+      .hotel-result-card {
+          background-color: #1f1f1f;
+          border-radius: 8px;
+          overflow: hidden; /* Ensures content stays within the rounded corners */
+          display: flex;
+          flex-direction: column;
+          box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+          transition: transform 0.2s ease-in-out;
+      }
+
+      .hotel-result-card:hover {
+          transform: translateY(-5px); /* Lifts the card on hover */
+      }
+
+      .hotel-details {
+          padding: 1rem;
+          flex-grow: 1; /* Allows this section to grow and push the footer down */
+      }
+
+      .hotel-details h4 {
+          color: #0a9396; /* Accent color for the hotel name */
+          margin-bottom: 0.5rem;
+      }
+
+      .hotel-footer {
+          background-color: #2a2a2a;
+          padding: 1rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+      }
+
+      .hotel-footer .price {
+          font-size: 1.2rem;
+          font-weight: bold;
+      }
+
+      .hotel-footer button {
+          background-color: #0a9396;
+          color: white;
+          border: none;
+          padding: 10px 15px;
+          border-radius: 5px;
+          cursor: pointer;
+      }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="logo.png" alt="Trip Tailor Logo" class="logo" />
+    <div class="slogan">Your personalized travel assistant</div>
+  </header>
+
+  <nav>
+    <a href="index.html" style="margin-right: 20px;">🏠 Home</a>
+    <a href="flight.html" style="margin-right: 20px;">✈️ Flights</a>
+    <a href="hotel.html">🏨 Hotels</a>
+  </nav>
+
+  <h1>✈️ Book Your Flight</h1>
+
+  <form id="flightForm">
+    <!-- IMPORTANT: The input 'name' attributes have been changed to 'id' for easier access in JS -->
+    <label for="from">📍 From (Airport Code)</label>
+    <input type="text" id="from" placeholder="e.g., JFK" required />
+
+    <label for="to">🧭 To (Airport Code)</label>
+    <input type="text" id="to" placeholder="e.g., LHR" required />
+
+    <label for="departure">🗓️ Departure Date</label>
+    <input type="date" id="departure" required />
+
+    <!-- Removed Return Date and Passengers for simplicity with Amadeus Test API -->
+    
+    <button type="submit">Search Flights</button> <!-- Button text changed -->
+  </form>
+
+  <div id="custom-alert-modal" class="modal">
+    <div class="modal-content">
+        <h2 id="custom-alert-title"></h2>
+        <p id="custom--alert-message"></p>
+        <button id="custom-alert-ok-btn">OK</button>
+    </div>
+</div>
+
+  <!-- Container to display flight search results -->
+  <div id="flight-results-container"></div>
+
+  <!-- Main script for cart functionality -->
+  <script src="script.js"></script> 
+  <!-- Specific script for this page -->
+  <script src="flight.js"></script>
+
+</body>
+</html>

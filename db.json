@@ -1,0 +1,95 @@
+{
+  "users": {
+    "Sreya": {
+      "name": "Sreya Shyjash",
+      "email": "Sreyashyjash@gmail.com",
+      "username": "Sreya",
+      "password": "Sreya@123"
+    },
+    "Sreya Shyjash": {
+      "name": "Sreya",
+      "email": "Sreyashyjash@gmail.com",
+      "username": "Sreya Shyjash",
+      "password": "Sreya@123"
+    }
+  },
+  "orders": {
+    "Sreya": [
+      {
+        "orderId": "TRIP-1749901989198",
+        "purchaseDate": "2025-06-14T11:53:09.201Z",
+        "items": [
+          {
+            "title": "New York (JFK) → London (LHR)",
+            "type": "flight",
+            "price": 550
+          },
+          {
+            "title": "The Plaza, New York",
+            "type": "hotel",
+            "price": 800
+          },
+          {
+            "title": "Shangri-La The Shard, London",
+            "type": "hotel",
+            "price": 750
+          },
+          {
+            "title": "Disneyland Park",
+            "type": "attraction",
+            "price": 104
+          },
+          {
+            "title": "Grand Canyon",
+            "type": "attraction",
+            "price": 35
+          }
+        ],
+        "totalAmount": 2239
+      },
+      {
+        "orderId": "TRIP-1749909056331",
+        "purchaseDate": "2025-06-14T13:50:56.331Z",
+        "items": [
+          {
+            "title": "JFK → HND",
+            "type": "flight",
+            "price": 959.7
+          }
+        ],
+        "totalAmount": 959.7
+      },
+      {
+        "orderId": "TRIP-1749912581856",
+        "purchaseDate": "2025-06-14T14:49:41.856Z",
+        "items": [
+          {
+            "title": "Aloft Manhattan Downtown Financial District",
+            "type": "hotel",
+            "price": 282.03
+          }
+        ],
+        "totalAmount": 282.03
+      }
+    ],
+    "Sreya Shyjash": [
+      {
+        "orderId": "TRIP-1750010393750",
+        "purchaseDate": "2025-06-15T17:59:53.750Z",
+        "items": [
+          {
+            "title": "AUH → COK",
+            "type": "flight",
+            "price": 296.5
+          },
+          {
+            "title": "Sheraton Abu Dhabi Hotel and Resort",
+            "type": "hotel",
+            "price": 616.27
+          }
+        ],
+        "totalAmount": 912.77
+      }
+    ]
+  }
+}
